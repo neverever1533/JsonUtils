@@ -46,9 +46,13 @@ public class JsonArray {
 				}
 				p++;
 				if (obj instanceof String) {
-					stringBuffer.append(quotation);
-					stringBuffer.append(obj);
-					stringBuffer.append(quotation);
+					if (obj.equals(null_json)) {
+						stringBuffer.append(obj);
+					} else {
+						stringBuffer.append(quotation);
+						stringBuffer.append(obj);
+						stringBuffer.append(quotation);
+					}
 				} else if (obj instanceof JsonObject) {
 					stringBuffer.append(((JsonObject) obj).toStringJson());
 				} else if (obj instanceof JsonArray) {
@@ -57,7 +61,7 @@ public class JsonArray {
 					arr = (Object[]) obj;
 					stringBuffer.append(toStringJson(arr));
 				} else {
-					stringBuffer.append(obj.toString());
+					stringBuffer.append(obj);
 				}
 			}
 		}
@@ -80,9 +84,13 @@ public class JsonArray {
 						stringBuffer.append(space);
 					}
 					if (obj instanceof String) {
-						stringBuffer.append(quotation);
-						stringBuffer.append(obj.toString());
-						stringBuffer.append(quotation);
+						if (obj.equals(null_json)) {
+							stringBuffer.append(obj);
+						} else {
+							stringBuffer.append(quotation);
+							stringBuffer.append(obj);
+							stringBuffer.append(quotation);
+						}
 					} else if (obj instanceof JsonObject) {
 						stringBuffer.append(((JsonObject) obj).toStringJson());
 					} else if (obj instanceof JsonArray) {
@@ -91,7 +99,7 @@ public class JsonArray {
 						arr = (Object[]) obj;
 						stringBuffer.append(toStringJson(arr));
 					} else {
-						stringBuffer.append(obj.toString());
+						stringBuffer.append(obj);
 					}
 				}
 			}
