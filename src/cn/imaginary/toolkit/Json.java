@@ -39,15 +39,15 @@ public class Json {
 			string = string.replaceAll(regex, replacement);
 
 			replacement = "$1,$2";
-			regex = "(\\w+)(})";
+			regex = "(\\w+)(\\})";
 			string = string.replaceAll(regex, replacement);
 			regex = "(\\w+)(])";
 			string = string.replaceAll(regex, replacement);
-			regex = "(})(})";
+			regex = "(\\})(\\})";
 			string = string.replaceAll(regex, replacement);
-			regex = "(])(})";
+			regex = "(])(\\})";
 			string = string.replaceAll(regex, replacement);
-			regex = "(})(])";
+			regex = "(\\})(])";
 			string = string.replaceAll(regex, replacement);
 			regex = "(])(])";
 			string = string.replaceAll(regex, replacement);
@@ -55,7 +55,7 @@ public class Json {
 			replacement = "$1$2";
 			regex = "(,)\\s+(\")";
 			string = string.replaceAll(regex, replacement);
-			regex = "(,)\\s+(})";
+			regex = "(,)\\s+(\\})";
 			string = string.replaceAll(regex, replacement);
 			regex = "(,)\\s+(])";
 			string = string.replaceAll(regex, replacement);
@@ -67,13 +67,13 @@ public class Json {
 			string = string.replaceAll(regex, replacement);
 			regex = "(\\[)\\s+(\\[)";
 			string = string.replaceAll(regex, replacement);
-			regex = "(])\\s+(})";
+			regex = "(])\\s+(\\})";
 			string = string.replaceAll(regex, replacement);
-			regex = "(})\\s+(])";
+			regex = "(\\})\\s+(])";
 			string = string.replaceAll(regex, replacement);
 			regex = "(])\\s+(])";
 			string = string.replaceAll(regex, replacement);
-			regex = "(})\\s+(})";
+			regex = "(\\})\\s+(\\})";
 			string = string.replaceAll(regex, replacement);
 		}
 		return string;
