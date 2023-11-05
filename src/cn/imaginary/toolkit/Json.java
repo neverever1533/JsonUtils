@@ -12,6 +12,7 @@ public class Json {
 	private String openBrace = JsonString.openBrace;
 	private String openBracket = JsonString.openBracket;
 	private String quotation = JsonString.quotation;
+	private String space = JsonString.space;
 
 	public String jsonformat(String string) {
 		if (null != string) {
@@ -22,10 +23,6 @@ public class Json {
 			regex = "(\\})";
 			string = string.replaceAll(regex, replacement);
 			regex = "(])";
-			string = string.replaceAll(regex, replacement);
-
-			replacement = "$1";
-			regex = "\\s*(,)\\s*";
 			string = string.replaceAll(regex, replacement);
 		}
 		return string;
@@ -85,7 +82,11 @@ public class Json {
 
 				while (offset_ >= 0 && offset_ < len) {
 					temp = value.substring(offset_);
-					if (value.startsWith(openBrace)) {
+if(value.startsWith(space)) {
+							offset++;
+							break;
+						
+					}	else if (value.startsWith(openBrace)) {
 						if (level == 0) {
 							obj = value.substring(0, offset_);
 							if (obj.length() != 0) {
