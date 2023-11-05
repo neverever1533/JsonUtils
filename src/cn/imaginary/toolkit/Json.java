@@ -18,11 +18,19 @@ public class Json {
 		if (null != string) {
 			String regex;
 			String replacement;
-
-			replacement = ",$1";
-			regex = "(\\})";
+			
+			replacement = "$1";
+			regex = "\\s*(\\})\\s*";
 			string = string.replaceAll(regex, replacement);
-			regex = "(])";
+			regex = "\\s*(\\])\\s*";
+			string = string.replaceAll(regex, replacement);
+			regex = "\\s*(:)\\s*";
+			string = string.replaceAll(regex, replacement);
+			regex = "\\s*(,)\\s*";
+			string = string.replaceAll(regex, replacement);
+			regex = "\\s*(\\{)\\s*";
+			string = string.replaceAll(regex, replacement);
+			regex = "\\s*(\\[)\\s*";
 			string = string.replaceAll(regex, replacement);
 		}
 		return string;
@@ -62,71 +70,69 @@ public class Json {
 				return null;
 			}
 			string = string.substring(pre + 1, ffix);
-			int offset = 0;
-			int offset_ = 0;
 			pre = 0;
 			ffix = 0;
 			int ffix_ = 0;
 			int level;
-			int len;
-			int length = string.length();
+			int i;
+			int j;
+			int iLength;
+			int jLength;
 			String temp;
 			String value;
 			String obj;
 
-			while (offset >= 0 && offset < length) {
-				value = string.substring(offset);
-				len = value.length();
+			for (i = 0, iLength = string.length(); i < iLength; i++) {
+				value = string.substring(i);
 				level = 0;
-				offset_ = 0;
-
-				while (offset_ >= 0 && offset_ < len) {
-					temp = value.substring(offset_);
-					 if (value.startsWith(space)) {
-							offset++;
-							break;
-					} else if (value.startsWith(openBrace)) {
-						if (level == 0) {
-							obj = value.substring(0, offset_);
-							if (obj.length() != 0) {
-								jsonArray.add(parseJsonObject(obj));
-								offset += obj.length() + 1;
-								break;
-							}
-						}
+				if (value.startsWith(space)) {
+					continue;
+				}
+				
+				for (j = 0, jLength = value.length(); j < jLength; j++) {
+					temp = value.substring(j);
+					if (value.startsWith(openBrace)) {
 						if (temp.startsWith(openBrace)) {
 							level++;
 						} else if (temp.startsWith(closeBrace)) {
 							level--;
 						}
-					} else if (value.startsWith(openBracket)) {
 						if (level == 0) {
-							obj = value.substring(0, offset_);
+							obj = value.substring(0, j + 1);
 							if (obj.length() != 0) {
-								jsonArray.add(parseJsonArray(obj));
-								offset += obj.length() + 1;
+								jsonArray.add(parseJsonObject(obj));
+								i += obj.length() + 1;
 								break;
 							}
 						}
+					} else if (value.startsWith(openBracket)) {
 						if (temp.startsWith(openBracket)) {
 							level++;
 						} else if (temp.startsWith(closeBracket)) {
 							level--;
 						}
+						if (level == 0) {
+							obj = value.substring(0, j + 1);
+							if (obj.length() != 0) {
+								jsonArray.add(parseJsonArray(obj));
+								i += obj.length() + 1;
+								break;
+							}
+						}
 					} else {
 						ffix_ = temp.indexOf(comma);
 						if (ffix_ != -1) {
 							obj = temp.substring(0, ffix_);
-							jsonArray.add(parseJsonValue(obj));
-							offset += obj.length() + 1;
-							break;
+						} else {
+							obj = temp;
 						}
+						jsonArray.add(parseJsonValue(obj.trim()));
+						i += obj.length() + 1;
+						break;
 					}
-					offset_++;
 				}
 
 			}
-			offset++;
 		}
 		return jsonArray;
 	}
@@ -141,80 +147,81 @@ public class Json {
 				return null;
 			}
 			string = string.substring(pre + 1, ffix);
-			int offset = 0;
-			int offset_ = 0;
 			pre = 0;
 			ffix = 0;
 			int ffix_ = 0;
 			int level;
-			int len;
-			int length = string.length();
+			int i;
+			int j;
+			int iLength;
+			int jLength;
 			String temp;
 			String str;
 			String key;
 			String value;
 			String obj;
 
-			while (offset >= 0 && offset < length) {
-				str = string.substring(offset);
+			for (i = 0, iLength = string.length(); i < iLength; i++) {
+				str = string.substring(i);
 				if (str.startsWith(quotation)) {
 					ffix = str.indexOf(quotation, 1);
 					pre = str.indexOf(colon, ffix);
-					len = str.length();
-					if (pre != -1 && ffix != -1 && len > pre + 1) {
+					jLength = str.length();
+					if (pre != -1 && ffix != -1 && jLength > pre + 1) {
 						key = str.substring(1, pre - 1);
 						value = str.substring(pre + 1);
 						if (key.length() > 2 && value.length() > 0) {
-							len = value.length();
+							jLength = value.length();
 							level = 0;
-							offset_ = 0;
 
-							while (offset_ >= 0 && offset_ < len) {
-								temp = value.substring(offset_);
-								if (value.startsWith(openBrace)) {
-									if (level == 0) {
-										obj = value.substring(0, offset_);
-										if (obj.length() != 0) {
-											jsonObject.add(key, parseJsonObject(obj));
-											offset += key.length() + 3 + obj.length();
-											break;
-										}
-									}
+							for (j = 0; j < jLength; j++) {
+								temp = value.substring(j);
+								if (value.startsWith(space)) {
+									continue;
+								} else if (value.startsWith(openBrace)) {
 									if (temp.startsWith(openBrace)) {
 										level++;
 									} else if (temp.startsWith(closeBrace)) {
 										level--;
 									}
-								} else if (value.startsWith(openBracket)) {
 									if (level == 0) {
-										obj = value.substring(0, offset_);
+										obj = value.substring(0, j + 1);
 										if (obj.length() != 0) {
-											jsonObject.add(key, parseJsonArray(obj));
-											offset += key.length() + 3 + obj.length();
+											jsonObject.add(key, parseJsonObject(obj));
+											i += key.length() + 3 + obj.length();
 											break;
 										}
 									}
+								} else if (value.startsWith(openBracket)) {
 									if (temp.startsWith(openBracket)) {
 										level++;
 									} else if (temp.startsWith(closeBracket)) {
 										level--;
 									}
+									if (level == 0) {
+										obj = value.substring(0, j + 1);
+										if (obj.length() != 0) {
+											jsonObject.add(key, parseJsonArray(obj));
+											i += key.length() + 3 + obj.length();
+											break;
+										}
+									}
 								} else {
 									ffix_ = temp.indexOf(comma);
 									if (ffix_ != -1) {
 										obj = temp.substring(0, ffix_);
-										jsonObject.add(key, parseJsonValue(obj));
-										offset += key.length() + 3 + obj.length();
-										break;
+									} else {
+										obj = temp;
 									}
+									jsonObject.add(key, parseJsonValue(obj.trim()));
+									i += key.length() + 3 + obj.length();
+									break;
 								}
-								offset_++;
 							}
 
 						}
 					}
 				}
-				offset++;
 			}
 		}
 		return jsonObject;
