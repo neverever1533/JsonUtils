@@ -55,7 +55,7 @@ public class JsonString {
 
 	private void updata() {
 		prop.put(apostrophe, apostrophe_replace);
-		prop.put(closeBrace, closeBrace_replace);
+//		prop.put(closeBrace, closeBrace_replace);
 		prop.put(closeBracket, closeBracket_replace);
 		prop.put(colon, colon_replace);
 		prop.put(comma, comma_replace);
@@ -71,6 +71,9 @@ public class JsonString {
 		if (null != string) {
 			if (string.contains(ampersand_replace)) {
 				string = string.replaceAll(ampersand_replace, ampersand);
+			}
+			if (string.contains(closeBrace_replace)) {
+				string = string.replaceAll(closeBrace_replace, closeBrace);
 			}
 			if (string.contains(openBrace_replace)) {
 				string = string.replaceAll(openBrace_replace, openBrace);
@@ -131,6 +134,10 @@ public class JsonString {
 		if (null != string) {
 			if (isUnReplaced(string)) {
 				string = string.replaceAll(ampersand, ampersand_replace);
+			}
+			if (string.contains(closeBrace)) {
+				regex = "\\}";
+				string = string.replaceAll(regex, closeBrace_replace);
 			}
 			if (string.contains(openBrace)) {
 				regex = "\\{";
