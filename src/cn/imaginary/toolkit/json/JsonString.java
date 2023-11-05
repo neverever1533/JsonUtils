@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 public class JsonString {
-	private Properties prop = new Properties();
-
 	public static String ampersand = "&";
 	public static String ampersand_replace = "&amp;";
 	public static String apostrophe = "'";
@@ -16,8 +14,10 @@ public class JsonString {
 	public static String asterisk = "*";
 	public static String backSlash = "\\";
 	public static String closeBrace = "}";
+	public static String closeBrace_backSlash = "\\}";
 	public static String closeBrace_replace = "&cbrace;";
 	public static String closeBracket = "]";
+	public static String closeBracket_backSlash = "\\]";
 	public static String closeBracket_replace = "&cbrack;";
 	public static String colon = ":";
 	public static String colon_replace = "&colon;";
@@ -33,10 +33,13 @@ public class JsonString {
 	public static String minus = "-";
 	public static String null_json = "null";
 	public static String openBrace = "{";
+	public static String openBrace_backSlash = "\\{";
 	public static String openBrace_replace = "&obrace;";
 	public static String openBracket = "[";
+	public static String openBracket_backSlash = "\\[";
 	public static String openBracket_replace = "&obrack;";
 	public static String period = ".";
+	public static String period_backSlash = "\\.";
 	public static String plus = "+";
 	public static String quotation = "\"";
 	public static String quotation_replace = "&quot;";
@@ -46,43 +49,13 @@ public class JsonString {
 	public static String underscore = "_";
 	public static String vertical = "|";
 
+	private Properties prop = new Properties();
+
 	private String regex;
 	private String replacement;
 
 	public JsonString() {
 		updata();
-	}
-
-	private void updata() {
-		prop.put(apostrophe, apostrophe_replace);
-//		prop.put(closeBrace, closeBrace_replace);
-		prop.put(closeBracket, closeBracket_replace);
-		prop.put(colon, colon_replace);
-		prop.put(comma, comma_replace);
-		prop.put(equals, equals_replace);
-		prop.put(greaterThan, greaterThan_replace);
-		prop.put(lessThan, lessThan_replace);
-//		prop.put(openBrace, openBrace_replace);
-//		prop.put(openBracket, openBracket_replace);
-		prop.put(quotation, quotation_replace);
-	}
-
-	public String toString(String string) {
-		if (null != string) {
-			if (string.contains(ampersand_replace)) {
-				string = string.replaceAll(ampersand_replace, ampersand);
-			}
-			if (string.contains(closeBrace_replace)) {
-				string = string.replaceAll(closeBrace_replace, closeBrace);
-			}
-			if (string.contains(openBrace_replace)) {
-				string = string.replaceAll(openBrace_replace, openBrace);
-			}
-			if (string.contains(openBracket_replace)) {
-				string = string.replaceAll(openBracket_replace, openBracket);
-			}
-		}
-		return toString(string, false);
 	}
 
 	private boolean isUnReplaced(String string) {
@@ -99,6 +72,15 @@ public class JsonString {
 			}
 		}
 		return true;
+	}
+
+	public String toString(String string) {
+		if (null != string) {
+			if (string.contains(ampersand_replace)) {
+				string = string.replaceAll(ampersand_replace, ampersand);
+			}
+		}
+		return toString(string, false);
 	}
 
 	private String toString(String string, boolean isJson) {
@@ -121,6 +103,24 @@ public class JsonString {
 							replacement = key.toString();
 						}
 						if (string.contains(regex)) {
+							if (regex.equals(closeBrace)) {
+								regex = closeBrace_backSlash;
+							} else if (regex.equals(closeBracket)) {
+								regex = closeBracket_backSlash;
+							} else if (regex.equals(openBrace)) {
+								regex = openBrace_backSlash;
+							} else if (regex.equals(openBracket)) {
+								regex = openBracket_backSlash;
+							}
+							if (replacement.equals(closeBrace)) {
+								replacement = closeBrace_backSlash;
+							} else if (replacement.equals(closeBracket)) {
+								replacement = closeBracket_backSlash;
+							} else if (replacement.equals(openBrace)) {
+								replacement = openBrace_backSlash;
+							} else if (replacement.equals(openBracket)) {
+								replacement = openBracket_backSlash;
+							}
 							string = string.replaceAll(regex, replacement);
 						}
 					}
@@ -135,19 +135,21 @@ public class JsonString {
 			if (isUnReplaced(string)) {
 				string = string.replaceAll(ampersand, ampersand_replace);
 			}
-			if (string.contains(closeBrace)) {
-				regex = "\\}";
-				string = string.replaceAll(regex, closeBrace_replace);
-			}
-			if (string.contains(openBrace)) {
-				regex = "\\{";
-				string = string.replaceAll(regex, openBrace_replace);
-			}
-			if (string.contains(openBracket)) {
-				regex = "\\[";
-				string = string.replaceAll(regex, openBracket_replace);
-			}
 		}
 		return toString(string, true);
+	}
+
+	private void updata() {
+		prop.put(apostrophe, apostrophe_replace);
+		prop.put(closeBrace, closeBrace_replace);
+		prop.put(closeBracket, closeBracket_replace);
+		prop.put(colon, colon_replace);
+		prop.put(comma, comma_replace);
+		prop.put(equals, equals_replace);
+		prop.put(greaterThan, greaterThan_replace);
+		prop.put(lessThan, lessThan_replace);
+		prop.put(openBrace, openBrace_replace);
+		prop.put(openBracket, openBracket_replace);
+		prop.put(quotation, quotation_replace);
 	}
 }
