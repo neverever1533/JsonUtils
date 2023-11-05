@@ -53,7 +53,7 @@ public class JsonObject {
 		Object value;
 		Object[] array;
 		for (Iterator<Entry<Object, Object>> iterator = enSet.iterator(); iterator.hasNext();) {
-			obj = (Entry<Object, Object>) iterator.next();
+			obj = iterator.next();
 			if (null != obj) {
 				if (p != 0) {
 					stringBuffer.append(comma);
