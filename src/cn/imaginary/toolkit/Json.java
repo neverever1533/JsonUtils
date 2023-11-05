@@ -18,46 +18,14 @@ public class Json {
 			String regex;
 			String replacement;
 
+			replacement = ",$1";
+			regex = "(\\})";
+			string = string.replaceAll(regex, replacement);
+			regex = "(])";
+			string = string.replaceAll(regex, replacement);
+
 			replacement = "$1";
-			regex = "(,)\\s+";
-			string = string.replaceAll(regex, replacement);
-
-			replacement = "$1,$2";
-			regex = "(\\w+)(\\})";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\w+)(])";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\})(\\})";
-			string = string.replaceAll(regex, replacement);
-			regex = "(])(\\})";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\})(])";
-			string = string.replaceAll(regex, replacement);
-			regex = "(])(])";
-			string = string.replaceAll(regex, replacement);
-
-			replacement = "$1$2";
-			regex = "(,)\\s+(\")";
-			string = string.replaceAll(regex, replacement);
-			regex = "(,)\\s+(\\})";
-			string = string.replaceAll(regex, replacement);
-			regex = "(,)\\s+(])";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\{)\\s+(\\[)";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\[)\\s+(\\{)";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\{)\\s+(\\{)";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\[)\\s+(\\[)";
-			string = string.replaceAll(regex, replacement);
-			regex = "(])\\s+(\\})";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\})\\s+(])";
-			string = string.replaceAll(regex, replacement);
-			regex = "(])\\s+(])";
-			string = string.replaceAll(regex, replacement);
-			regex = "(\\})\\s+(\\})";
+			regex = "\\s*(,)\\s*";
 			string = string.replaceAll(regex, replacement);
 		}
 		return string;
