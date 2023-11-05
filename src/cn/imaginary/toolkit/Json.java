@@ -13,22 +13,6 @@ public class Json {
 	private String openBracket = JsonString.openBracket;
 	private String quotation = JsonString.quotation;
 
-	public JsonArray getJsonArray(String string) {
-		if (null == string || (string.startsWith(openBrace) && string.endsWith(closeBrace))) {
-			return null;
-		}
-		JsonArray jsonArray = new JsonArray();
-		return jsonArray;
-	}
-
-	public JsonObject getJsonObject(String string) {
-		if (null == string || (string.startsWith(openBracket) && string.endsWith(closeBracket))) {
-			return null;
-		}
-		JsonObject jsonObject = new JsonObject();
-		return jsonObject;
-	}
-
 	public String jsonformat(String string) {
 		if (null != string) {
 			String regex;
