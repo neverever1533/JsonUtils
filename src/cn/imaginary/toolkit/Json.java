@@ -85,7 +85,7 @@ public class Json {
 					 if (value.startsWith(space)) {
 							offset++;
 							break;
-					}	else if (value.startsWith(openBrace)) {
+					} else if (value.startsWith(openBrace)) {
 						if (level == 0) {
 							obj = value.substring(0, offset_);
 							if (obj.length() != 0) {
