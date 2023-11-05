@@ -5,13 +5,13 @@ import cn.imaginary.toolkit.json.JsonObject;
 import cn.imaginary.toolkit.json.JsonString;
 
 public class Json {
-	private String closeBrace = JsonString.closeBrace;// }
-	private String closeBracket = JsonString.closeBracket;// ]
-	private String colon = JsonString.colon;// :
-	private String comma = JsonString.comma;// ,
-	private String openBrace = JsonString.openBrace;// {
-	private String openBracket = JsonString.openBracket;// [
-	private String quotation = JsonString.quotation;// "
+	private String closeBrace = JsonString.closeBrace;
+	private String closeBracket = JsonString.closeBracket;
+	private String colon = JsonString.colon;
+	private String comma = JsonString.comma;
+	private String openBrace = JsonString.openBrace;
+	private String openBracket = JsonString.openBracket;
+	private String quotation = JsonString.quotation;
 
 	public JsonArray getJsonArray(String string) {
 		if (null == string || (string.startsWith(openBrace) && string.endsWith(closeBrace))) {
