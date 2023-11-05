@@ -68,9 +68,13 @@ public class JsonObject {
 				value = obj.getValue();
 				if (null != value) {
 					if (value instanceof String) {
-						stringBuffer.append(quotation);
-						stringBuffer.append(value.toString());
-						stringBuffer.append(quotation);
+						if (value.equals(null_json)) {
+							stringBuffer.append(value);
+						} else {
+							stringBuffer.append(quotation);
+							stringBuffer.append(value);
+							stringBuffer.append(quotation);
+						}
 					} else if (value instanceof JsonObject) {
 						stringBuffer.append(((JsonObject) value).toStringJson());
 					} else if (value instanceof JsonArray) {
@@ -79,7 +83,7 @@ public class JsonObject {
 						array = (Object[]) value;
 						stringBuffer.append(toStringJson(array));
 					} else {
-						stringBuffer.append(value.toString());
+						stringBuffer.append(value);
 					}
 				}
 			}
@@ -103,9 +107,13 @@ public class JsonObject {
 						stringBuffer.append(space);
 					}
 					if (obj instanceof String) {
-						stringBuffer.append(quotation);
-						stringBuffer.append(obj.toString());
-						stringBuffer.append(quotation);
+						if (obj.equals(null_json)) {
+							stringBuffer.append(obj);
+						} else {
+							stringBuffer.append(quotation);
+							stringBuffer.append(obj);
+							stringBuffer.append(quotation);
+						}
 					} else if (obj instanceof JsonObject) {
 						stringBuffer.append(((JsonObject) obj).toStringJson());
 					} else if (obj instanceof JsonArray) {
@@ -114,7 +122,7 @@ public class JsonObject {
 						arr = (Object[]) obj;
 						stringBuffer.append(toStringJson(arr));
 					} else {
-						stringBuffer.append(obj.toString());
+						stringBuffer.append(obj);
 					}
 				}
 			}
