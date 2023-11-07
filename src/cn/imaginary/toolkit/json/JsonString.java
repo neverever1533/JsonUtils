@@ -13,6 +13,8 @@ public class JsonString {
 	public static String apostrophe_replace = "&apos;";
 	public static String asterisk = "*";
 	public static String backSlash = "\\";
+	public static String carriageReturn = "\r";
+	public static String carriageReturn_And_LineFeed = "\r\n";
 	public static String closeBrace = "}";
 	public static String closeBrace_backSlash = "\\}";
 	public static String closeBrace_replace = "&cbrace;";
@@ -26,10 +28,12 @@ public class JsonString {
 	public static String dollar = "$";
 	public static String equals = "=";
 	public static String equals_replace = "&equals;";
+	public static String false_json = "false";
 	public static String greaterThan = ">";
 	public static String greaterThan_replace = "&gt;";
 	public static String lessThan = "<";
 	public static String lessThan_replace = "&lt;";
+	public static String lineFeed = "\n";
 	public static String minus = "-";
 	public static String null_json = "null";
 	public static String openBrace = "{";
@@ -46,8 +50,10 @@ public class JsonString {
 	public static String semicolon = ";";
 	public static String slash = "/";
 	public static String space = " ";
+	public static String true_json = "true";
 	public static String underscore = "_";
 	public static String vertical = "|";
+	public static String whitespace = "\\s";
 
 	private Properties prop = new Properties();
 
