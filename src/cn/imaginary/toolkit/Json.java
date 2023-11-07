@@ -5,6 +5,8 @@ import cn.imaginary.toolkit.json.JsonObject;
 import cn.imaginary.toolkit.json.JsonString;
 
 public class Json {
+	private String apostrophe = JsonString.apostrophe;
+	private String carriageReturn_And_LineFeed = JsonString.carriageReturn_And_LineFeed;
 	private String closeBrace = JsonString.closeBrace;
 	private String closeBracket = JsonString.closeBracket;
 	private String colon = JsonString.colon;
@@ -15,14 +17,51 @@ public class Json {
 	private String openBracket = JsonString.openBracket;
 	private String quotation = JsonString.quotation;
 	private String true_json = JsonString.true_json;
-	private String whitespace = JsonString.whitespace;
+	private String tabs = JsonString.tabs;
+	private String whitespace_ = "\\s+(.*)";
+	private String replacement = "$1";
+
+	public String format(String string) {
+		if (null != string) {
+			StringBuffer stringBuffer = new StringBuffer();
+			char sign;
+			int level = 0;
+			for (int i = 0, iLength = string.length(); i < iLength; i++) {
+				sign = string.charAt(i);
+				switch (sign) {
+				case '{':
+					level++;
+					stringBuffer.append(sign);
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
+					break;
+				case '}':
+					level--;
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
+					stringBuffer.append(sign);
+					break;
+				default:
+					stringBuffer.append(sign);
+					break;
+				}
+			}
+			string = stringBuffer.toString();
+		}
+		return string;
+	}
+
+	private void addTabs(StringBuffer stringBuffer, int level) {
+		if (null != stringBuffer && level > 0) {
+			for (int i = 0, iLength = level; i < iLength; i++) {
+				stringBuffer.append(tabs);
+			}
+		}
+	}
 
 	public String jsonformat(String string) {
 		if (null != string) {
 			String regex;
-			String replacement;
-
-			replacement = "$1";
 			regex = "\\s*(\\})\\s*";
 			string = string.replaceAll(regex, replacement);
 			regex = "\\s*(\\])\\s*";
@@ -64,7 +103,7 @@ public class Json {
 			for (i = 0, iLength = string.length(); i < iLength; i++) {
 				value = string.substring(i);
 				level = 0;
-				if (value.startsWith(whitespace)) {
+				if (value.matches(whitespace_)) {
 					continue;
 				}
 
@@ -105,11 +144,11 @@ public class Json {
 						} else {
 							obj = temp;
 						}
-//						System.out.print("arr_item=");
-//						System.out.println(obj);
-						jsonArray.add(parseJsonValue(obj.trim()));
-						i += obj.length() + 1;
-						break;
+						if (obj.length() != 0) {
+							jsonArray.add(parseJsonValue(obj.trim()));
+							i += obj.length() + 1;
+							break;
+						}
 					}
 				}
 
@@ -148,18 +187,18 @@ public class Json {
 					ffix = str.indexOf(quotation, 1);
 					pre = str.indexOf(colon, ffix);
 					jLength = str.length();
-					if (pre != -1 && ffix != -1 && jLength > pre + 1) {
-						key = str.substring(1, pre - 1);
+					if (pre != -1 && ffix != -1 && jLength >= pre + 1) {
+						key = str.substring(1, ffix);
 						value = str.substring(pre + 1);
-						if (key.length() > 2 && value.length() > 0) {
+						if (value.matches(whitespace_)) {
+							value = value.replaceFirst(whitespace_, replacement);
+						}
+						if (value.length() > 0) {
 							jLength = value.length();
 							level = 0;
 
 							for (j = 0; j < jLength; j++) {
 								temp = value.substring(j);
-								if (value.startsWith(whitespace)) {
-									continue;
-								}
 								if (value.startsWith(openBrace)) {
 									if (temp.startsWith(openBrace)) {
 										level++;
@@ -170,7 +209,7 @@ public class Json {
 										obj = value.substring(0, j + 1);
 										if (obj.length() != 0) {
 											jsonObject.add(key, parseJsonObject(obj));
-											i += key.length() + 3 + obj.length();
+											i += pre + 1 + obj.length() + 1;
 											break;
 										}
 									}
@@ -184,7 +223,7 @@ public class Json {
 										obj = value.substring(0, j + 1);
 										if (obj.length() != 0) {
 											jsonObject.add(key, parseJsonArray(obj));
-											i += key.length() + 3 + obj.length();
+											i += pre + 1 + obj.length() + 1;
 											break;
 										}
 									}
@@ -195,13 +234,11 @@ public class Json {
 									} else {
 										obj = temp;
 									}
-//									System.out.print("obj=");
-//									System.out.print(key);
-//									System.out.print(colon);
-//									System.out.println(obj);
-									jsonObject.add(key, parseJsonValue(obj.trim()));
-									i += key.length() + 3 + obj.length();
-									break;
+									if (obj.length() != 0) {
+										jsonObject.add(key, parseJsonValue(obj.trim()));
+										i += pre + 1 + obj.length() + 1;
+										break;
+									}
 								}
 							}
 
@@ -222,7 +259,7 @@ public class Json {
 				if (l > Integer.MIN_VALUE && l < Integer.MAX_VALUE) {
 					obj = Integer.valueOf(string);
 				}
-			} else if (string.matches("-*\\d*\\.\\d+")) {
+			} else if (string.matches("-*\\d*\\.\\d+f*")) {
 				obj = Float.valueOf(string);
 			} else if (string.equalsIgnoreCase(null_json)) {
 				obj = null;
@@ -230,6 +267,8 @@ public class Json {
 				obj = Boolean.valueOf(string);
 			} else if (string.startsWith(quotation) && string.endsWith(quotation)) {
 				obj = string.substring(1, string.length() - 1);
+			} else if (string.startsWith(apostrophe) && string.endsWith(apostrophe) && string.length() == 3) {
+				obj = string.charAt(1);
 			} else {
 				obj = string;
 			}
