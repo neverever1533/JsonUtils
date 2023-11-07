@@ -6,8 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class JsonArray {
+	private static String apostrophe = JsonString.apostrophe;
 	private static String closeBracket = JsonString.closeBracket;
 	private static String comma = JsonString.comma;
+	private static String hex = JsonString.hex;
 	private static String null_json = JsonString.null_json;
 	private static String openBracket = JsonString.openBracket;
 	private static String quotation = JsonString.quotation;
@@ -25,8 +27,12 @@ public class JsonArray {
 						stringBuffer.append(comma);
 						stringBuffer.append(space);
 					}
-					if (obj instanceof String) {
-						if (obj.equals(null_json)) {
+					if (obj instanceof Character) {
+						stringBuffer.append(apostrophe);
+						stringBuffer.append(obj);
+						stringBuffer.append(apostrophe);
+					} else if (obj instanceof String) {
+						if (obj.equals(null_json) || obj.toString().matches(hex)) {
 							stringBuffer.append(obj);
 						} else {
 							stringBuffer.append(quotation);
