@@ -9,16 +9,19 @@ public class Json {
 	private String closeBracket = JsonString.closeBracket;
 	private String colon = JsonString.colon;
 	private String comma = JsonString.comma;
+	private String false_json = JsonString.false_json;
+	private String null_json = JsonString.null_json;
 	private String openBrace = JsonString.openBrace;
 	private String openBracket = JsonString.openBracket;
 	private String quotation = JsonString.quotation;
-	private String space = JsonString.space;
+	private String true_json = JsonString.true_json;
+	private String whitespace = JsonString.whitespace;
 
 	public String jsonformat(String string) {
 		if (null != string) {
 			String regex;
 			String replacement;
-			
+
 			replacement = "$1";
 			regex = "\\s*(\\})\\s*";
 			string = string.replaceAll(regex, replacement);
@@ -34,30 +37,6 @@ public class Json {
 			string = string.replaceAll(regex, replacement);
 		}
 		return string;
-	}
-
-	public Object parseJsonValue(String string) {
-		Object obj = null;
-		if (null != string) {
-			if (string.matches("-*\\d+")) {
-				obj = Long.valueOf(string);
-				Long l = (Long) obj;
-				if (l > Integer.MIN_VALUE && l < Integer.MAX_VALUE) {
-					obj = Integer.valueOf(string);
-				}
-			} else if (string.matches("-*\\d*\\.\\d+")) {
-				obj = Float.valueOf(string);
-			} else if (string.equalsIgnoreCase(JsonString.null_json)) {
-				obj = null;
-			} else if (string.equalsIgnoreCase("true") || string.equalsIgnoreCase("false")) {
-				obj = Boolean.valueOf(string);
-			} else if (string.startsWith(quotation) && string.endsWith(quotation)) {
-				obj = string.substring(1, string.length() - 1);
-			} else {
-				obj = string;
-			}
-		}
-		return obj;
 	}
 
 	public JsonArray parseJsonArray(String string) {
@@ -85,10 +64,10 @@ public class Json {
 			for (i = 0, iLength = string.length(); i < iLength; i++) {
 				value = string.substring(i);
 				level = 0;
-				if (value.startsWith(space)) {
+				if (value.startsWith(whitespace)) {
 					continue;
 				}
-				
+
 				for (j = 0, jLength = value.length(); j < jLength; j++) {
 					temp = value.substring(j);
 					if (value.startsWith(openBrace)) {
@@ -126,6 +105,8 @@ public class Json {
 						} else {
 							obj = temp;
 						}
+//						System.out.print("arr_item=");
+//						System.out.println(obj);
 						jsonArray.add(parseJsonValue(obj.trim()));
 						i += obj.length() + 1;
 						break;
@@ -176,9 +157,10 @@ public class Json {
 
 							for (j = 0; j < jLength; j++) {
 								temp = value.substring(j);
-								if (value.startsWith(space)) {
+								if (value.startsWith(whitespace)) {
 									continue;
-								} else if (value.startsWith(openBrace)) {
+								}
+								if (value.startsWith(openBrace)) {
 									if (temp.startsWith(openBrace)) {
 										level++;
 									} else if (temp.startsWith(closeBrace)) {
@@ -213,6 +195,10 @@ public class Json {
 									} else {
 										obj = temp;
 									}
+//									System.out.print("obj=");
+//									System.out.print(key);
+//									System.out.print(colon);
+//									System.out.println(obj);
 									jsonObject.add(key, parseJsonValue(obj.trim()));
 									i += key.length() + 3 + obj.length();
 									break;
@@ -225,6 +211,30 @@ public class Json {
 			}
 		}
 		return jsonObject;
+	}
+
+	public Object parseJsonValue(String string) {
+		Object obj = null;
+		if (null != string) {
+			if (string.matches("-*\\d+")) {
+				obj = Long.valueOf(string);
+				Long l = (Long) obj;
+				if (l > Integer.MIN_VALUE && l < Integer.MAX_VALUE) {
+					obj = Integer.valueOf(string);
+				}
+			} else if (string.matches("-*\\d*\\.\\d+")) {
+				obj = Float.valueOf(string);
+			} else if (string.equalsIgnoreCase(null_json)) {
+				obj = null;
+			} else if (string.equalsIgnoreCase(true_json) || string.equalsIgnoreCase(false_json)) {
+				obj = Boolean.valueOf(string);
+			} else if (string.startsWith(quotation) && string.endsWith(quotation)) {
+				obj = string.substring(1, string.length() - 1);
+			} else {
+				obj = string;
+			}
+		}
+		return obj;
 	}
 
 }
