@@ -9,9 +9,11 @@ import java.util.Set;
 public class JsonObject {
 	private Properties properties_ = new Properties();
 
+	private String apostrophe = JsonString.apostrophe;
 	private String closeBrace = JsonString.closeBrace;
 	private String colon = JsonString.colon;
 	private String comma = JsonString.comma;
+	private String hex = JsonString.hex;
 	private String null_json = JsonString.null_json;
 	private String openBrace = JsonString.openBrace;
 	private String quotation = JsonString.quotation;
@@ -106,8 +108,12 @@ public class JsonObject {
 					stringBuffer.append(colon);
 					value = entry.getValue();
 					if (null != value) {
-						if (value instanceof String) {
-							if (value.equals(null_json)) {
+						if (value instanceof Character) {
+							stringBuffer.append(apostrophe);
+							stringBuffer.append(value);
+							stringBuffer.append(apostrophe);
+						} else if (value instanceof String) {
+							if (value.equals(null_json) || value.toString().matches(hex)) {
 								stringBuffer.append(value);
 							} else {
 								stringBuffer.append(quotation);
