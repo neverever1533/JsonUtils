@@ -7,5 +7,6 @@
   如xml中&<>转义为\&amp;\&lt;\&gt;需要；
   properties存储键值对时"=<>冲突；
   JSON书写规范的,":{}[]造成混乱等等
+3. 支持obj和array增删改查操作；
 
 tips：转义或恢复可使用JSONString类的toStringJson(string)，或toString(string)方法获取。
