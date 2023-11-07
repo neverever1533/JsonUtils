@@ -5,23 +5,18 @@ import cn.imaginary.toolkit.json.JsonObject;
 import cn.imaginary.toolkit.json.JsonString;
 
 public class Json {
-	private String apostrophe = JsonString.apostrophe;
-	private String carriageReturn_And_LineFeed = JsonString.carriageReturn_And_LineFeed;
-	private String closeBrace = JsonString.closeBrace;
-	private String closeBracket = JsonString.closeBracket;
-	private String colon = JsonString.colon;
-	private String comma = JsonString.comma;
-	private String false_json = JsonString.false_json;
-	private String null_json = JsonString.null_json;
-	private String openBrace = JsonString.openBrace;
-	private String openBracket = JsonString.openBracket;
-	private String quotation = JsonString.quotation;
-	private String true_json = JsonString.true_json;
-	private String tabs = JsonString.tabs;
-	private String whitespace_ = "\\s+(.*)";
-	private String replacement = "$1";
+	private static String carriageReturn_And_LineFeed = JsonString.carriageReturn_And_LineFeed;
+	private static String tabs = JsonString.tabs;
 
-	public String format(String string) {
+	private static void addTabs(StringBuffer stringBuffer, int level) {
+		if (null != stringBuffer && level > 0) {
+			for (int i = 0, iLength = level; i < iLength; i++) {
+				stringBuffer.append(tabs);
+			}
+		}
+	}
+
+	public static String format(String string) {
 		if (null != string) {
 			StringBuffer stringBuffer = new StringBuffer();
 			char sign;
@@ -34,6 +29,23 @@ public class Json {
 					stringBuffer.append(sign);
 					stringBuffer.append(carriageReturn_And_LineFeed);
 					addTabs(stringBuffer, level);
+					break;
+				case '[':
+					level++;
+					stringBuffer.append(sign);
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
+					break;
+				case ',':
+					stringBuffer.append(sign);
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
+					break;
+				case ']':
+					level--;
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
+					stringBuffer.append(sign);
 					break;
 				case '}':
 					level--;
@@ -51,15 +63,21 @@ public class Json {
 		return string;
 	}
 
-	private void addTabs(StringBuffer stringBuffer, int level) {
-		if (null != stringBuffer && level > 0) {
-			for (int i = 0, iLength = level; i < iLength; i++) {
-				stringBuffer.append(tabs);
-			}
-		}
-	}
+	private String apostrophe = JsonString.apostrophe;
+	private String closeBrace = JsonString.closeBrace;
+	private String closeBracket = JsonString.closeBracket;
+	private String colon = JsonString.colon;
+	private String comma = JsonString.comma;
+	private String false_json = JsonString.false_json;
+	private String null_json = JsonString.null_json;
+	private String openBrace = JsonString.openBrace;
+	private String openBracket = JsonString.openBracket;
+	private String quotation = JsonString.quotation;
+	private String replacement = "$1";
+	private String true_json = JsonString.true_json;
+	private String whitespace_ = "\\s+(.*)";
 
-	public String jsonformat(String string) {
+	public String formatJson(String string) {
 		if (null != string) {
 			String regex;
 			regex = "\\s*(\\})\\s*";
