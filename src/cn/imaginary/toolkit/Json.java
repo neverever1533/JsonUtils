@@ -25,12 +25,16 @@ public class Json {
 				sign = string.charAt(i);
 				switch (sign) {
 				case '{':
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
 					level++;
 					stringBuffer.append(sign);
 					stringBuffer.append(carriageReturn_And_LineFeed);
 					addTabs(stringBuffer, level);
 					break;
 				case '[':
+					stringBuffer.append(carriageReturn_And_LineFeed);
+					addTabs(stringBuffer, level);
 					level++;
 					stringBuffer.append(sign);
 					stringBuffer.append(carriageReturn_And_LineFeed);
