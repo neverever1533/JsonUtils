@@ -214,7 +214,7 @@ public class Json {
 						key = str.substring(1, ffix);
 						value = str.substring(pre + 1).trim();
 						jLength = value.length();
-						i += length - pre - jLength;
+						i += length - pre - 1 - jLength;
 						if (jLength > 0) {
 							level = 0;
 
