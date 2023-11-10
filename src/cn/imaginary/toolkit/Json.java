@@ -106,10 +106,10 @@ public class Json {
 			jsonArray = new JsonArray();
 			int pre = string.indexOf(openBracket);
 			int ffix = string.lastIndexOf(closeBracket);
-			if (!(pre != -1 && ffix != -1)) {
+			if (pre == -1 || ffix == -1) {
 				return null;
 			}
-			string = string.substring(pre + 1, ffix);
+			string = string.substring(pre + 1, ffix).trim();
 			pre = 0;
 			ffix = 0;
 			int ffix_ = 0;
@@ -185,10 +185,10 @@ public class Json {
 			jsonObject = new JsonObject();
 			int pre = string.indexOf(openBrace);
 			int ffix = string.lastIndexOf(closeBrace);
-			if (!(pre != -1 && ffix != -1)) {
+			if (pre == -1 || ffix == -1) {
 				return null;
 			}
-			string = string.substring(pre + 1, ffix);
+			string = string.substring(pre + 1, ffix).trim();
 			pre = 0;
 			ffix = 0;
 			int ffix_ = 0;
