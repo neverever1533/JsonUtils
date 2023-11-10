@@ -195,6 +195,7 @@ public class Json {
 			int level;
 			int i;
 			int j;
+			int length;
 			int iLength;
 			int jLength;
 			String temp;
@@ -208,15 +209,13 @@ public class Json {
 				if (str.startsWith(quotation)) {
 					ffix = str.indexOf(quotation, 1);
 					pre = str.indexOf(colon, ffix);
-					jLength = str.length();
-					if (pre != -1 && ffix != -1 && jLength >= pre + 1) {
+					length = str.length();
+					if (pre != -1 && ffix != -1 && length >= pre + 1) {
 						key = str.substring(1, ffix);
-						value = str.substring(pre + 1);
-						if (value.matches(whitespace_)) {
-							value = value.replaceFirst(whitespace_, replacement);
-						}
-						if (value.length() > 0) {
-							jLength = value.length();
+						value = str.substring(pre + 1).trim();
+						jLength = value.length();
+						i += length - pre - jLength;
+						if (jLength > 0) {
 							level = 0;
 
 							for (j = 0; j < jLength; j++) {
