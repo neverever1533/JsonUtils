@@ -76,6 +76,11 @@ public class JsonArray {
         add(index, obj);
     }
 
+    public void add(int index, String item) {
+        Object obj = item;
+        add(index, obj);
+    }
+
     public void add(int index, Object obj) {
         arrayList.add(index, obj);
     }
@@ -91,6 +96,11 @@ public class JsonArray {
     }
 
     public void add(JsonString item) {
+        Object obj = item;
+        add(obj);
+    }
+
+    public void add(String item) {
         Object obj = item;
         add(obj);
     }
@@ -130,6 +140,11 @@ public class JsonArray {
         return contains(obj);
     }
 
+    public boolean contains(String item) {
+        Object obj = item;
+        return contains(obj);
+    }
+
     public boolean contains(Object obj) {
         return arrayList.contains(obj);
     }
@@ -157,6 +172,11 @@ public class JsonArray {
         return indexOf(obj);
     }
 
+    public int indexOf(String item) {
+        Object obj = item;
+        return indexOf(obj);
+    }
+
     public int indexOf(Object obj) {
         return arrayList.indexOf(obj);
     }
@@ -180,6 +200,11 @@ public class JsonArray {
         return lastIndexOf(obj);
     }
 
+    public int lastIndexOf(String item) {
+        Object obj = item;
+        return lastIndexOf(obj);
+    }
+
     public int lastIndexOf(Object obj) {
         return arrayList.lastIndexOf(obj);
     }
@@ -199,6 +224,11 @@ public class JsonArray {
     }
 
     public void remove(JsonString item) {
+        Object obj = item;
+        remove(obj);
+    }
+
+    public void remove(String item) {
         Object obj = item;
         remove(obj);
     }
@@ -233,6 +263,11 @@ public class JsonArray {
     }
 
     public void set(int index, JsonString item) {
+        Object obj = item;
+        set(index, obj);
+    }
+
+    public void set(int index, String item) {
         Object obj = item;
         set(index, obj);
     }
