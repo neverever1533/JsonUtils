@@ -62,7 +62,7 @@ public class JsonString {
 
     private String regex;
     private String replacement;
-    private String jsonString;
+    private String string_Json;
 
     public JsonString() {
         updata();
@@ -73,19 +73,28 @@ public class JsonString {
         setString(string);
     }
 
-    public String getStringJson() {
-        return jsonString;
+    public JsonString(JsonString jsonString) {
+        updata();
+        setString(jsonString);
     }
 
     public String getString() {
-        return toString(jsonString);
+        return string_Json;
+    }
+
+    public void setString(JsonString jsonString) {
+        if (null == jsonString) {
+            string_Json = null;
+        } else {
+            string_Json = jsonString.getString();
+        }
     }
 
     public void setString(String string) {
-        jsonString = toStringJson(string);
+        string_Json = string;
     }
 
-    private boolean isUnReplaced(String string) {
+    private boolean isTagOriginal(String string) {
         Collection<Object> vSet = prop.values();
         Object object;
         String value;
@@ -101,7 +110,7 @@ public class JsonString {
         return true;
     }
 
-    public String toString(String string) {
+    public String tagOriginal(String string) {
         if (null != string) {
             if (string.contains(ampersand_replace)) {
                 string = string.replaceAll(ampersand_replace, ampersand);
@@ -110,7 +119,7 @@ public class JsonString {
         return toString(string, false);
     }
 
-    private String toString(String string, boolean isJson) {
+    private String toString(String string, boolean isReplace) {
         if (null != string) {
             Set<Entry<Object, Object>> enSet = prop.entrySet();
             Object key;
@@ -122,7 +131,7 @@ public class JsonString {
                     key = entry.getKey();
                     value = entry.getValue();
                     if (null != key && null != value) {
-                        if (isJson) {
+                        if (isReplace) {
                             regex = key.toString();
                             replacement = value.toString();
                         } else {
@@ -157,12 +166,11 @@ public class JsonString {
         return string;
     }
 
-    public String toStringJson() {
-        StringBuffer stringBuffer = null;
+    public String toString() {
         if (null != this) {
-            stringBuffer = new StringBuffer();
+            StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(quotation);
-            stringBuffer.append(jsonString);
+            stringBuffer.append(string_Json);
             stringBuffer.append(quotation);
             return stringBuffer.toString();
         } else {
@@ -170,9 +178,9 @@ public class JsonString {
         }
     }
 
-    public String toStringJson(String string) {
+    public String tagReplaced(String string) {
         if (null != string) {
-            if (isUnReplaced(string)) {
+            if (isTagOriginal(string)) {
                 string = string.replaceAll(ampersand, ampersand_replace);
             }
         }
