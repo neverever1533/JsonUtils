@@ -20,57 +20,13 @@ public class JsonObject {
     private String quotation = JsonString.quotation;
     private String space = JsonString.space;
 
-    public void add(JsonString key, JsonObject value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(JsonString key, JsonArray value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(JsonString key, JsonString value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(JsonString key, Object value) {
-        Object obj_key = key;
-        add(obj_key, value);
-    }
-
-    public void add(String key, JsonObject value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(String key, JsonArray value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(String key, JsonString value) {
-        Object obj_key = key;
-        Object obj_value = value;
-        add(obj_key, obj_value);
-    }
-
-    public void add(String key, Object value) {
-        Object obj_key = key;
-        add(obj_key, value);
-    }
-
     public void add(Object key, Object value) {
-        if (null != key && (key instanceof String || key instanceof JsonString)) {
-            /*if (null == key) {
-                key = null_json;
-            }*/
+        if (JsonKey.isJsonKey(key)) {
+            if (key instanceof JsonKey) {
+                key = ((JsonKey) key).getKey();
+            } else if (key instanceof JsonString) {
+                key = ((JsonString) key).getString();
+            }
             if (null == value) {
                 value = null_json;
             }
@@ -90,33 +46,8 @@ public class JsonObject {
         return properties_.clone();
     }
 
-    public boolean containsKey(JsonString key) {
-        Object obj = key;
-        return containsKey(obj);
-    }
-
-    public boolean containsKey(String key) {
-        Object obj = key;
-        return containsKey(obj);
-    }
-
     public boolean containsKey(Object key) {
         return properties_.containsKey(key);
-    }
-
-    public boolean containsValue(JsonObject value) {
-        Object obj = value;
-        return containsValue(obj);
-    }
-
-    public boolean containsValue(JsonArray value) {
-        Object obj = value;
-        return containsValue(obj);
-    }
-
-    public boolean containsValue(JsonString value) {
-        Object obj = value;
-        return containsValue(obj);
     }
 
     public boolean containsValue(Object value) {
@@ -127,16 +58,6 @@ public class JsonObject {
         return properties_;
     }
 
-    public Object getValue(JsonString key) {
-        Object obj = key;
-        return getValue(obj);
-    }
-
-    public Object getValue(String key) {
-        Object obj = key;
-        return getValue(obj);
-    }
-
     public Object getValue(Object key) {
         return properties_.get(key);
     }
@@ -145,58 +66,8 @@ public class JsonObject {
         return properties_.isEmpty();
     }
 
-    public void remove(JsonString key) {
-        Object obj = key;
-        remove(obj);
-    }
-
-    public void remove(String key) {
-        Object obj = key;
-        remove(obj);
-    }
-
     public void remove(Object key) {
         properties_.remove(key);
-    }
-
-    public void replace(JsonString key, JsonObject value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(JsonString key, JsonArray value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(JsonString key, JsonString value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(JsonString key, Object value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(String key, JsonObject value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(String key, JsonArray value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(String key, JsonString value) {
-        Object obj = key;
-        replace(obj, value);
-    }
-
-    public void replace(String key, Object value) {
-        Object obj = key;
-        replace(obj, value);
     }
 
     public void replace(Object key, Object value) {
@@ -215,15 +86,10 @@ public class JsonObject {
     }
 
     public String toString() {
-        JsonString jsonString = new JsonString();
-        return jsonString.toString(toStringJson());
+        return toString(properties_);
     }
 
-    public String toStringJson() {
-        return toStringJson(properties_);
-    }
-
-    public String toStringJson(Properties properties) {
+    private String toString(Properties properties) {
         if (null != properties) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(openBrace);
@@ -260,13 +126,13 @@ public class JsonObject {
                                 stringBuffer.append(quotation);
                             }
                         } else if (value instanceof JsonString) {
-                            stringBuffer.append(((JsonString) value).toStringJson());
+                            stringBuffer.append(((JsonString) value).toString());
                         } else if (value instanceof JsonObject) {
-                            stringBuffer.append(((JsonObject) value).toStringJson());
+                            stringBuffer.append(((JsonObject) value).toString());
                         } else if (value instanceof JsonArray) {
-                            stringBuffer.append(((JsonArray) value).toStringJson());
+                            stringBuffer.append(((JsonArray) value).toString());
                         } else if (value instanceof Object[]) {
-                            stringBuffer.append(JsonArray.toStringJson((Object[]) value));
+                            stringBuffer.append(JsonArray.toString((Object[]) value));
                         } else {
                             stringBuffer.append(value);
                         }
