@@ -16,7 +16,7 @@ public class JsonArray {
     private static String quotation = JsonString.quotation;
     private static String space = JsonString.space;
 
-    public static String toStringJson(Object[] array) {
+    public static String toString(Object[] array) {
         if (null != array) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(openBracket);
@@ -41,13 +41,13 @@ public class JsonArray {
                             stringBuffer.append(quotation);
                         }
                     } else if (obj instanceof JsonString) {
-                        stringBuffer.append(((JsonString) obj).toStringJson());
+                        stringBuffer.append(((JsonString) obj).toString());
                     } else if (obj instanceof JsonObject) {
-                        stringBuffer.append(((JsonObject) obj).toStringJson());
+                        stringBuffer.append(((JsonObject) obj).toString());
                     } else if (obj instanceof JsonArray) {
-                        stringBuffer.append(((JsonArray) obj).toStringJson());
+                        stringBuffer.append(((JsonArray) obj).toString());
                     } else if (obj instanceof Object[]) {
-                        stringBuffer.append(toStringJson((Object[]) obj));
+                        stringBuffer.append(toString((Object[]) obj));
                     } else {
                         stringBuffer.append(obj);
                     }
@@ -61,48 +61,8 @@ public class JsonArray {
 
     private ArrayList<Object> arrayList = new ArrayList<Object>();
 
-    public void add(int index, JsonObject item) {
-        Object obj = item;
-        add(index, obj);
-    }
-
-    public void add(int index, JsonArray item) {
-        Object obj = item;
-        add(index, obj);
-    }
-
-    public void add(int index, JsonString item) {
-        Object obj = item;
-        add(index, obj);
-    }
-
-    public void add(int index, String item) {
-        Object obj = item;
-        add(index, obj);
-    }
-
     public void add(int index, Object obj) {
         arrayList.add(index, obj);
-    }
-
-    public void add(JsonObject item) {
-        Object obj = item;
-        add(obj);
-    }
-
-    public void add(JsonArray item) {
-        Object obj = item;
-        add(obj);
-    }
-
-    public void add(JsonString item) {
-        Object obj = item;
-        add(obj);
-    }
-
-    public void add(String item) {
-        Object obj = item;
-        add(obj);
     }
 
     public void add(Object obj) {
@@ -125,26 +85,6 @@ public class JsonArray {
         return arrayList.clone();
     }
 
-    public boolean contains(JsonObject item) {
-        Object obj = item;
-        return contains(obj);
-    }
-
-    public boolean contains(JsonArray item) {
-        Object obj = item;
-        return contains(obj);
-    }
-
-    public boolean contains(JsonString item) {
-        Object obj = item;
-        return contains(obj);
-    }
-
-    public boolean contains(String item) {
-        Object obj = item;
-        return contains(obj);
-    }
-
     public boolean contains(Object obj) {
         return arrayList.contains(obj);
     }
@@ -157,26 +97,6 @@ public class JsonArray {
         return arrayList;
     }
 
-    public int indexOf(JsonObject item) {
-        Object obj = item;
-        return indexOf(obj);
-    }
-
-    public int indexOf(JsonArray item) {
-        Object obj = item;
-        return indexOf(obj);
-    }
-
-    public int indexOf(JsonString item) {
-        Object obj = item;
-        return indexOf(obj);
-    }
-
-    public int indexOf(String item) {
-        Object obj = item;
-        return indexOf(obj);
-    }
-
     public int indexOf(Object obj) {
         return arrayList.indexOf(obj);
     }
@@ -185,52 +105,12 @@ public class JsonArray {
         return arrayList.isEmpty();
     }
 
-    public int lastIndexOf(JsonObject item) {
-        Object obj = item;
-        return lastIndexOf(obj);
-    }
-
-    public int lastIndexOf(JsonArray item) {
-        Object obj = item;
-        return lastIndexOf(obj);
-    }
-
-    public int lastIndexOf(JsonString item) {
-        Object obj = item;
-        return lastIndexOf(obj);
-    }
-
-    public int lastIndexOf(String item) {
-        Object obj = item;
-        return lastIndexOf(obj);
-    }
-
     public int lastIndexOf(Object obj) {
         return arrayList.lastIndexOf(obj);
     }
 
     public void remove(int index) {
         arrayList.remove(index);
-    }
-
-    public void remove(JsonObject item) {
-        Object obj = item;
-        remove(obj);
-    }
-
-    public void remove(JsonArray item) {
-        Object obj = item;
-        remove(obj);
-    }
-
-    public void remove(JsonString item) {
-        Object obj = item;
-        remove(obj);
-    }
-
-    public void remove(String item) {
-        Object obj = item;
-        remove(obj);
     }
 
     public void remove(Object obj) {
@@ -250,26 +130,6 @@ public class JsonArray {
             clear();
             arrayList = list;
         }
-    }
-
-    public void set(int index, JsonObject item) {
-        Object obj = item;
-        set(index, obj);
-    }
-
-    public void set(int index, JsonArray item) {
-        Object obj = item;
-        set(index, obj);
-    }
-
-    public void set(int index, JsonString item) {
-        Object obj = item;
-        set(index, obj);
-    }
-
-    public void set(int index, String item) {
-        Object obj = item;
-        set(index, obj);
     }
 
     public void set(int index, Object obj) {
@@ -292,7 +152,7 @@ public class JsonArray {
         return arrayList.toArray();
     }
 
-    public String toStringJson() {
-        return toStringJson(arrayList.toArray());
+    public String toString() {
+        return toString(arrayList.toArray());
     }
 }
