@@ -283,6 +283,12 @@ public class Json {
         return jsonObject;
     }
 
+    private boolean tag_Original = true;
+
+    public void setTagOriginal(boolean isTagOriginal) {
+        tag_Original = isTagOriginal;
+    }
+
     public Object parseJsonValue(String string) {
         Object obj = null;
         if (null != string) {
@@ -301,7 +307,11 @@ public class Json {
             } else if (string.startsWith(quotation) && string.endsWith(quotation)) {
                 // obj = string.substring(1, string.length() - 1);
                 string = string.substring(1, string.length() - 1);
-                JsonString jsonString = new JsonString(string);
+                JsonString jsonString = new JsonString();
+                if (!tag_Original) {
+                    string = jsonString.tagReplaced(string);
+                }
+                jsonString.setString(string);
                 // obj = jsonString.getStringJson();
                 obj = jsonString;
             } else if (string.startsWith(apostrophe) && string.endsWith(apostrophe) && string.length() == 3) {
