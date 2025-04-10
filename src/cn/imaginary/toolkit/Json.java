@@ -86,7 +86,7 @@ public class Json {
     private String openBracket = JsonString.openBracket;
     private String quotation = JsonString.quotation;
     private String replacement = "$1";
-    private String replacement_ = ", $1";
+    // private String replacement_ = ", $1";
     private String true_json = JsonString.true_json;
     private String whitespace_ = "\\s+(.*)";
 
@@ -95,10 +95,10 @@ public class Json {
             String regex;
             regex = "\\s*(\\})\\s*";
             string = string.replaceAll(regex, replacement);
-            string = string.replaceAll(regex, replacement_);
+            // string = string.replaceAll(regex, replacement_);
             regex = "\\s*(\\])\\s*";
             string = string.replaceAll(regex, replacement);
-            string = string.replaceAll(regex, replacement_);
+            // string = string.replaceAll(regex, replacement_);
             regex = "\\s*(:)\\s*";
             string = string.replaceAll(regex, replacement);
             regex = "\\s*(,)\\s*";
