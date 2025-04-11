@@ -20,13 +20,8 @@ public class JsonObject {
     private String quotation = JsonString.quotation;
     private String space = JsonString.space;
 
-    public void add(Object key, Object value) {
-        if (JsonKey.isJsonKey(key)) {
-            if (key instanceof JsonKey) {
-                key = ((JsonKey) key).getKey();
-            } else if (key instanceof JsonString) {
-                key = ((JsonString) key).getString();
-            }
+    public void add(String key, Object value) {
+        if (null != key) {
             if (null == value) {
                 value = null_json;
             }
@@ -34,7 +29,7 @@ public class JsonObject {
         }
     }
 
-    public void addAll(Map<? extends Object, ? extends Object> t) {
+    public void addAll(Map<? extends String, ? extends Object> t) {
         properties_.putAll(t);
     }
 
@@ -46,7 +41,7 @@ public class JsonObject {
         return properties_.clone();
     }
 
-    public boolean containsKey(Object key) {
+    public boolean containsKey(String key) {
         return properties_.containsKey(key);
     }
 
@@ -58,7 +53,7 @@ public class JsonObject {
         return properties_;
     }
 
-    public Object getValue(Object key) {
+    public Object getValue(String key) {
         return properties_.get(key);
     }
 
@@ -66,11 +61,11 @@ public class JsonObject {
         return properties_.isEmpty();
     }
 
-    public void remove(Object key) {
+    public void remove(String key) {
         properties_.remove(key);
     }
 
-    public void replace(Object key, Object value) {
+    public void replace(String key, Object value) {
         properties_.replace(key, value);
     }
 
@@ -125,8 +120,6 @@ public class JsonObject {
                                 stringBuffer.append(value);
                                 stringBuffer.append(quotation);
                             }
-                        } else if (value instanceof JsonString) {
-                            stringBuffer.append(((JsonString) value).toString());
                         } else if (value instanceof JsonObject) {
                             stringBuffer.append(((JsonObject) value).toString());
                         } else if (value instanceof JsonArray) {
