@@ -281,4 +281,43 @@ public class JsonUtils {
         }
         return jsonObject;
     }
+
+    private boolean tag_Original = true;
+
+    public void setTagOriginal(boolean isTagOriginal) {
+        tag_Original = isTagOriginal;
+    }
+
+    public Object parseJsonValue(String string) {
+        Object obj = null;
+        if (null != string) {
+            if (string.matches("-*\\d+")) {
+                obj = Long.valueOf(string);
+                Long l = (Long) obj;
+                if (l > Integer.MIN_VALUE && l < Integer.MAX_VALUE) {
+                    obj = Integer.valueOf(string);
+                }
+            } else if (string.matches("-*\\d*\\.\\d+f*")) {
+                obj = Float.valueOf(string);
+            } else if (string.equalsIgnoreCase(null_json)) {
+                obj = null;
+            } else if (string.equalsIgnoreCase(true_json) || string.equalsIgnoreCase(false_json)) {
+                obj = Boolean.valueOf(string);
+            } else if (string.startsWith(quotation) && string.endsWith(quotation)) {
+                // obj = string.substring(1, string.length() - 1);
+                string = string.substring(1, string.length() - 1);
+                if (!tag_Original) {
+                    JsonString jsonString = new JsonString();
+                    string = jsonString.tagReplaced(string);
+                }
+                obj = string;
+            } else if (string.startsWith(apostrophe) && string.endsWith(apostrophe) && string.length() == 3) {
+                obj = string.charAt(1);
+            } else {
+                // obj = string;
+                obj = null;
+            }
+        }
+        return obj;
+    }
 }
