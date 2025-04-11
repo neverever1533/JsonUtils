@@ -152,7 +152,6 @@ public class Json {
                             obj = value.substring(0, j + 1);
                             if (obj.length() != 0) {
                                 jsonArray.add(parseJsonObject(obj));
-
                                 i += obj.length();
                                 break;
                             }
@@ -167,7 +166,6 @@ public class Json {
                             obj = value.substring(0, j + 1);
                             if (obj.length() != 0) {
                                 jsonArray.add(parseJsonArray(obj));
-
                                 i += obj.length();
                                 break;
                             }
@@ -181,7 +179,6 @@ public class Json {
                         }
                         if (obj.length() != 0) {
                             jsonArray.add(parseJsonValue(obj.trim()));
-
                             i += obj.length();
                             break;
                         }
@@ -228,9 +225,9 @@ public class Json {
                         value = str.substring(pre + 1).trim();
                         jLength = value.length();
                         i += length - pre - 1 - jLength;
+
                         if (jLength > 0) {
                             level = 0;
-
                             for (j = 0; j < jLength; j++) {
                                 temp = value.substring(j);
                                 if (value.startsWith(openBrace)) {
@@ -307,13 +304,11 @@ public class Json {
             } else if (string.startsWith(quotation) && string.endsWith(quotation)) {
                 // obj = string.substring(1, string.length() - 1);
                 string = string.substring(1, string.length() - 1);
-                JsonString jsonString = new JsonString();
                 if (!tag_Original) {
+                    JsonString jsonString = new JsonString();
                     string = jsonString.tagReplaced(string);
                 }
-                jsonString.setString(string);
-                // obj = jsonString.getStringJson();
-                obj = jsonString;
+                obj = string;
             } else if (string.startsWith(apostrophe) && string.endsWith(apostrophe) && string.length() == 3) {
                 obj = string.charAt(1);
             } else {
