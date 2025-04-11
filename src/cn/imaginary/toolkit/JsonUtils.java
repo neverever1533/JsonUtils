@@ -4,7 +4,9 @@ import cn.imaginary.toolkit.json.JsonArray;
 import cn.imaginary.toolkit.json.JsonObject;
 import cn.imaginary.toolkit.json.JsonString;
 
-public class Json {
+public class JsonUtils {
+
+    public JsonUtils() {}
 
     private static String carriageReturn_And_LineFeed = JsonString.carriageReturn_And_LineFeed;
     private static String tabs = JsonString.tabs;
@@ -278,44 +280,5 @@ public class Json {
             }
         }
         return jsonObject;
-    }
-
-    private boolean tag_Original = true;
-
-    public void setTagOriginal(boolean isTagOriginal) {
-        tag_Original = isTagOriginal;
-    }
-
-    public Object parseJsonValue(String string) {
-        Object obj = null;
-        if (null != string) {
-            if (string.matches("-*\\d+")) {
-                obj = Long.valueOf(string);
-                Long l = (Long) obj;
-                if (l > Integer.MIN_VALUE && l < Integer.MAX_VALUE) {
-                    obj = Integer.valueOf(string);
-                }
-            } else if (string.matches("-*\\d*\\.\\d+f*")) {
-                obj = Float.valueOf(string);
-            } else if (string.equalsIgnoreCase(null_json)) {
-                obj = null;
-            } else if (string.equalsIgnoreCase(true_json) || string.equalsIgnoreCase(false_json)) {
-                obj = Boolean.valueOf(string);
-            } else if (string.startsWith(quotation) && string.endsWith(quotation)) {
-                // obj = string.substring(1, string.length() - 1);
-                string = string.substring(1, string.length() - 1);
-                if (!tag_Original) {
-                    JsonString jsonString = new JsonString();
-                    string = jsonString.tagReplaced(string);
-                }
-                obj = string;
-            } else if (string.startsWith(apostrophe) && string.endsWith(apostrophe) && string.length() == 3) {
-                obj = string.charAt(1);
-            } else {
-                // obj = string;
-                obj = null;
-            }
-        }
-        return obj;
     }
 }
