@@ -11,4 +11,4 @@
   - 支持obj和array增删改查操作；
 
 ## tips：
-  转义可使用JSONString类的tagReplaced(string)，恢复可tagOriginal(string)方法获取。
+  转义可使用JsonString类的tagReplaced(string)，恢复可tagOriginal(string)方法获取。
