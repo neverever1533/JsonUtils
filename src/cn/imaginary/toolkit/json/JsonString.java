@@ -62,36 +62,9 @@ public class JsonString {
 
     private String regex;
     private String replacement;
-    private String string_Json;
 
     public JsonString() {
         updata();
-    }
-
-    public JsonString(String string) {
-        updata();
-        setString(string);
-    }
-
-    public JsonString(JsonString jsonString) {
-        updata();
-        setString(jsonString);
-    }
-
-    public String getString() {
-        return string_Json;
-    }
-
-    public void setString(JsonString jsonString) {
-        if (null == jsonString) {
-            string_Json = null;
-        } else {
-            string_Json = jsonString.getString();
-        }
-    }
-
-    public void setString(String string) {
-        string_Json = string;
     }
 
     private boolean isTagOriginal(String string) {
@@ -164,18 +137,6 @@ public class JsonString {
             }
         }
         return string;
-    }
-
-    public String toString() {
-        if (null != this) {
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(quotation);
-            stringBuffer.append(string_Json);
-            stringBuffer.append(quotation);
-            return stringBuffer.toString();
-        } else {
-            return null;
-        }
     }
 
     public String tagReplaced(String string) {
