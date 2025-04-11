@@ -89,7 +89,7 @@ public class JsonObject {
         return toString(properties_);
     }
 
-    private String toString(Properties properties) {
+    public String toString(Properties properties) {
         if (null != properties) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(openBrace);
