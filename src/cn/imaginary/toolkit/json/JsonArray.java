@@ -40,8 +40,6 @@ public class JsonArray {
                             stringBuffer.append(obj);
                             stringBuffer.append(quotation);
                         }
-                    } else if (obj instanceof JsonString) {
-                        stringBuffer.append(((JsonString) obj).toString());
                     } else if (obj instanceof JsonObject) {
                         stringBuffer.append(((JsonObject) obj).toString());
                     } else if (obj instanceof JsonArray) {
